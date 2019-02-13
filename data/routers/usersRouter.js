@@ -57,16 +57,33 @@ router.post('/', (req, res) => {
   const user = req.body;
 
   db.insert(user)
-    .then()
+    .then(post => {
+      console.log(post);
+    })
     .catch();
 });
 // DELETE remove(id)
 router.delete('/:id', (req, res) => {
   const id = req.params.id;
-
-  db.remove(id)
-    .then()
-    .catch();
+  db.removeUserPosts(id)
+    .then(() => {
+      db.remove(id)
+        .then(results => {
+          if (results === 0) {
+            res
+              .status(404)
+              .json({ error: 'User with the specified ID could not be found' });
+          } else {
+            res.status(200).json(results);
+          }
+        })
+        .catch(() => {
+          res.status(500).json({ error: 'Could not remove user' });
+        });
+    })
+    .catch(() => {
+      res.status(500).json({ error: 'Could not remove posts of user' });
+    });
 });
 // PUT  update(id, changes)
 router.put('/:id', (req, res) => {
