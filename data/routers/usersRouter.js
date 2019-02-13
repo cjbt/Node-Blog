@@ -34,12 +34,22 @@ router.get('/:id', (req, res) => {
 });
 
 // GET USER POST  getUserPosts(userId)
-router.get('/:id/post', (req, res) => {
+router.get('/:userId/post', (req, res) => {
   const userId = req.params.userId;
 
   db.getUserPosts(userId)
-    .then()
-    .catch();
+    .then(userPost => {
+      if (userPost.length === 0) {
+        res
+          .status(404)
+          .json({ message: 'User with the specified ID was not found!' });
+      } else {
+        res.status(200).json(userPost);
+      }
+    })
+    .catch(() => {
+      res.status(500).json({ error: 'Internal server error' });
+    });
 });
 
 // POST  insert(user)
