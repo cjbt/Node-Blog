@@ -19,8 +19,18 @@ router.get('/:id', (req, res) => {
   const id = req.params.id;
 
   db.getById(id)
-    .then()
-    .catch();
+    .then(user => {
+      if (!user) {
+        res
+          .status(404)
+          .json({ error: 'User with the specified ID was not found!' });
+      } else {
+        res.status(200).json(user);
+      }
+    })
+    .catch(() => {
+      res.status(500).json({ error: 'Internal server error' });
+    });
 });
 
 // GET USER POST  getUserPosts(userId)
