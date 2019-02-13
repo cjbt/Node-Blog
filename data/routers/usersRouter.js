@@ -58,9 +58,11 @@ router.post('/', (req, res) => {
 
   db.insert(user)
     .then(post => {
-      console.log(post);
+      res.status(200).json(post);
     })
-    .catch();
+    .catch(() => {
+      res.status(500).json({ error: 'Internal server error.' });
+    });
 });
 // DELETE remove(id)
 router.delete('/:id', (req, res) => {
@@ -91,8 +93,12 @@ router.put('/:id', (req, res) => {
   const changes = req.body;
 
   db.update(id, changes)
-    .then()
-    .catch();
+    .then(post => {
+      res.status(200).json(post);
+    })
+    .catch(() => {
+      res.status(500).json({ error: 'Internal server error.' });
+    });
 });
 
 module.exports = router;
