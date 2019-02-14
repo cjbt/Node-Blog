@@ -1,4 +1,4 @@
-import { FETCH_USERS } from './index';
+import { FETCH_USERS, FETCH_POSTS } from './index';
 
 const usersReducer = (state, action) => {
   switch (action.type) {
@@ -6,6 +6,11 @@ const usersReducer = (state, action) => {
       return {
         ...state,
         users: action.payload
+      };
+    case FETCH_POSTS:
+      return {
+        ...state,
+        posts: action.payload
       };
     default:
       return state;

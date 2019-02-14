@@ -1,7 +1,9 @@
 import { createContext } from 'react';
 
 const UserContext = createContext({
-  users: []
+  users: [],
+  posts: [],
+  id: null
 });
 
 export default UserContext;

@@ -15,10 +15,12 @@ router.get('/', (req, res) => {
 
 // GET BY ID  getById(id)
 router.get('/:id', (req, res) => {
+  const userId = req.body.user_id;
   const id = req.params.id;
 
   db.getById(id)
     .then(post => {
+      console.log(id);
       if (!post) {
         res
           .status(404)
