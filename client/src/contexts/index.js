@@ -1,1 +1,1 @@
-export { default as BlogContext } from './BlogContext';
+export { default as UserContext } from './UserContext';
