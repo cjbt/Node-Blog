@@ -53,11 +53,12 @@ router.get('/:userId/post', (req, res) => {
 });
 
 // POST  insert(user)
-router.post('/', (req, res) => {
+router.post('/', capitalizeMiddleware, (req, res) => {
   const user = req.body;
 
   db.insert(user)
     .then(post => {
+      console.log(post);
       res.status(200).json(post);
     })
     .catch(() => {
@@ -67,24 +68,18 @@ router.post('/', (req, res) => {
 // DELETE remove(id)
 router.delete('/:id', (req, res) => {
   const id = req.params.id;
-  db.removeUserPosts(id)
-    .then(() => {
-      db.remove(id)
-        .then(results => {
-          if (results === 0) {
-            res
-              .status(404)
-              .json({ error: 'User with the specified ID could not be found' });
-          } else {
-            res.status(200).json(results);
-          }
-        })
-        .catch(() => {
-          res.status(500).json({ error: 'Could not remove user' });
-        });
+  db.remove(id)
+    .then(results => {
+      if (results === 0) {
+        res
+          .status(404)
+          .json({ error: 'User with the specified ID could not be found' });
+      } else {
+        res.status(200).json(results);
+      }
     })
     .catch(() => {
-      res.status(500).json({ error: 'Could not remove posts of user' });
+      res.status(500).json({ error: 'Could not remove user' });
     });
 });
 // PUT  update(id, changes)
@@ -100,5 +95,16 @@ router.put('/:id', (req, res) => {
       res.status(500).json({ error: 'Internal server error.' });
     });
 });
+
+function capitalizeMiddleware(req, res, next) {
+  let { name } = req.body;
+  if (!name) {
+    res.status(404).json({ error: 'Name must be included' });
+  } else {
+    req.body.name = req.body.name.toUpperCase();
+    console.log(name);
+    next();
+  }
+}
 
 module.exports = router;
