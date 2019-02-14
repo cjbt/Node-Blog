@@ -1,6 +1,8 @@
 // code away!
+require('dotenv').config();
 const server = require('./server');
 
-server.listen(5000, () => {
-  console.log('Bacon, eggs. You are now listening to radio 5000');
+const port = process.env.PORT || 4000;
+server.listen(port, () => {
+  console.log(`Bacon, eggs. You are now listening to port ${port}`);
 });
