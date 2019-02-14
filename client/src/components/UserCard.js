@@ -24,6 +24,7 @@ const UserCard = props => {
       {state.posts.map(post => (
         <Post key={post.id} post={post} />
       ))}
+      <button onClick={() => props.history.push('/')}>GO BACK</button>
     </div>
   );
 };
