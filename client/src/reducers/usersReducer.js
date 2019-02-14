@@ -1,5 +1,12 @@
+import { FETCH_USERS } from './index';
+
 const usersReducer = (state, action) => {
   switch (action.type) {
+    case FETCH_USERS:
+      return {
+        ...state,
+        users: action.payload
+      };
     default:
       return state;
   }
